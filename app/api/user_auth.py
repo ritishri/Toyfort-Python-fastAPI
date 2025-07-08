@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.schemas.auth import UserCreate,TokenResponse,Login
+from app.schemas.products import ProductResponse
 from app.services import auth_service
+from app.services import product_service
 from app.db.database import SessionLocal
 
 
@@ -27,3 +29,8 @@ def register(user:UserCreate, db:Session=Depends(get_db)):
 @router.post("/login")
 def login(data:Login,db: Session = Depends(get_db)):
     return auth_service.login(db,data.email,data.password)
+
+
+@router.get("/product",response_model=list[ProductResponse])
+def login(db: Session = Depends(get_db)):
+    return product_service.fetch_products(db)
