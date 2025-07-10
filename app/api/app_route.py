@@ -49,3 +49,7 @@ def product_response_by_slug(slug:str,db:Session=Depends(get_db)):
 def get_home_slider(db:Session=Depends(get_db)):
      return product_service.fetch_slider(db)
 
+
+@router.get("/brand-name")
+def get_brand_name(db:Session=Depends(get_db)):
+    return product_service.get_brand_name(db)

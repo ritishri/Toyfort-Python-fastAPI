@@ -8,7 +8,8 @@ class ProductResponse(BaseModel):
     currency : str
     discount_rate : int
     stock : int 
-    slug : str   
+    slug : str  
+    attribute2_value : str 
     class Config:
         orm_mode = True
 

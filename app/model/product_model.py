@@ -13,6 +13,7 @@ class Product(Base):
     discount_rate = Column(Integer)
     stock = Column(Integer)
     slug = Column(String(255))
+    attribute2_value = Column(String(255))
 
 
 class Slider(Base):
