@@ -14,6 +14,16 @@ class Product(Base):
     stock = Column(Integer)
     slug = Column(String(255))
     attribute2_value = Column(String(255))
+    attribute1_value = Column(String(255))
+    attribute3_value = Column(String(255))
+    attribute4_value = Column(String(255))
+    product_type = Column(String(255))
+    listing_type = Column(String(255))
+    barcode = Column(String(255))
+    sku = Column(String(255))
+    shipping_charge = Column(Integer)
+    status = Column(Integer)
+    visibility = Column(Integer)
 
 
 class Slider(Base):
@@ -21,3 +31,4 @@ class Slider(Base):
     id = Column(Integer,primary_key=True, index=True)
     link = Column(String(255))
     image = Column(String(255))
+ 

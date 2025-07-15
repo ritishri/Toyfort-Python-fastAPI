@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.schemas.auth import UserCreate
+from app.schemas.auth_schema import UserCreate
 from app.repositories import auth_repository
 from fastapi import HTTPException, status
 import bcrypt
@@ -15,7 +15,10 @@ def register_user(db:Session, user:UserCreate):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered") 
     
     if len(user.phone_number) > 10:
-        return "Phone number must be at most 10 character"
+        raise HTTPException(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        detail="Phone number must be at most 10 characters"
+    )
     hashed_password = bcrypt.hashpw(user.password.encode(),bcrypt.gensalt())
 
     registered_user = auth_repository.createUser(db,user.first_name,user.last_name,user.email,hashed_password)
@@ -33,7 +36,7 @@ def register_user(db:Session, user:UserCreate):
     }
 
 
-def login(db:Session,email:str,password:str):
+def login(db:Session, email:str,password:str):
     if not email or not password:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail="Provide an email and password")
     

@@ -38,3 +38,5 @@ class sliderResponse(BaseModel):
 
     class Config:
         orm_code = True
+
+
