@@ -1,0 +1,9 @@
+pydantic
+fastapi
+uvicorn
+dotenv
+sqlalchemy
+pymysql
+bcrypt
+python-jose[cryptography]
+pandas

@@ -27,4 +27,30 @@ def get_brand_name(db:Session):
 
      data = pd.read_sql_query(query,db.bind)
      return data["attribute2_value"].tolist()
-      
+
+from sqlalchemy.orm import Session
+from app.model.product_model import Product
+
+def create_product(db: Session, product_data: dict, user_id: int):
+    product_data["user_id"] = user_id
+    
+    new_product = Product(**product_data)  
+    db.add(new_product)
+    db.commit()
+    db.refresh(new_product)
+    return new_product
+
+
+def update_product(db: Session, product_id: int, user_id: int, update_data: dict):
+   
+    product = db.query(Product).filter(Product.id == product_id, Product.user_id == user_id).first()
+    
+    if not product:
+        return None 
+    
+    for key, value in update_data.items():
+        setattr(product, key, value)
+    
+    db.commit()
+    db.refresh(product)
+    return product    

@@ -7,6 +7,7 @@ class Product(Base):
     __tablename__ = "products"
 
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer)
     slug = Column(String(255), unique=True, index=True)
     price = Column(Integer)
     currency = Column(String(10))

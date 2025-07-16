@@ -1,4 +1,4 @@
-from jose import jwt
+from jose import jwt,JWTError
 from datetime import datetime,timedelta
 
 
@@ -13,3 +13,11 @@ def create_token(data:dict):
     to_encode.update({"exp":expire})
     encode_jwt = jwt.encode(to_encode, SECERET_KEY,algorithm=ALGORITHM)
     return encode_jwt
+
+
+def decode_token(token: str):
+    try:
+        payload = jwt.decode(token, SECERET_KEY, algorithms=[ALGORITHM])
+        return payload  
+    except JWTError:
+        return None
