@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
 from app.services import order_service,product_service
 from app.core.auth_dependency import get_current_user
-from app.schemas.products_schema import ProductCreate,ProductUpdate,ProductDetailsCreate,AddCategories
+from app.schemas.products_schema import ProductUpdate,AddCategories,ProductCombinedCreate
 router = APIRouter(prefix="/admin")
 
 def get_db():
@@ -24,11 +24,18 @@ def admin_orders(seller_id:int,db:Session=Depends(get_db)):
        return order_service.order_summary(db,seller_id)
 
 
+
 @router.post("/add-products")
-def create_product(product: ProductCreate,product_details:ProductDetailsCreate,db: Session = Depends(get_db),current_user: dict = Depends(get_current_user) 
+def create_product_route(
+    combined_data: ProductCombinedCreate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
 ):
-    user_id = current_user["id"]  
-    return product_service.create_product_service(db, product, product_details,user_id)   
+    user_id = current_user["id"]
+    new_prod = product_service.create_product_service(db, combined_data, user_id)
+    return {
+        "success": True,
+    } 
 
 
 

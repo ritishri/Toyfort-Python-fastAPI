@@ -64,6 +64,8 @@ class ProductCreate(BaseModel):
     attribute1_value : str
     attribute3_name : str
     attribute3_value : str
+    attribute4_name: str
+    attribute4_value: str
     product_type: str
     listing_type: str
     barcode: str
@@ -77,21 +79,7 @@ class ProductCreate(BaseModel):
     barcode : str
     class Config:
         orm_mode = True
-
-
-class ProductDetailsCreate(BaseModel):
-    # id : int
-      product_id : int
-      title: str
-      tags: str
-      faqs: str
-      description: str
-      seo_title: str
-      seo_description: str
-      seo_keywords: str
-
-      class Config:
-        orm_mode = True        
+       
 
 
 class ProductUpdate(BaseModel):
@@ -136,3 +124,37 @@ class AddCategories(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class ProductCombinedCreate(BaseModel):
+    # product fields
+    slug: str
+    price: int
+    currency: str
+    discount_rate: int
+    stock: int
+    attribute2_value: str
+    attribute2_name: str
+    attribute1_name: str
+    attribute1_value: str
+    attribute3_name: str
+    attribute3_value: str
+    attribute4_name: str
+    attribute4_value: str
+    product_type: str
+    listing_type: str
+    barcode: str
+    sku: str
+    shipping_charge: int
+    status: int
+    visibility: int
+
+    # details fields
+    title: str
+    tag: str
+    faqs: str
+    description: str
+    seo_title: str
+    seo_description: str
+    seo_keywords: str
+

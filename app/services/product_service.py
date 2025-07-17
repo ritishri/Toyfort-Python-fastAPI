@@ -1,6 +1,6 @@
 from app.repositories.product_repository import get_all_products,get_all_products_by_slug,get_slider,get_brand_name,create_product,update_product,add_category
 from sqlalchemy.orm import Session
-from app.schemas.products_schema import AddCategories
+from app.schemas.products_schema import AddCategories,ProductCombinedCreate
 
 
 def fetch_products(db:Session):
@@ -19,12 +19,31 @@ def fetch_brand_name(db:Session):
     return get_brand_name(db)
 
 
-
-def create_product_service(db: Session, product_data: dict, product_details_data: dict, user_id: int):
-    return create_product(db, product_data, product_details_data, user_id)
-
 def update_product_service(db, product_id, user_id, update_data):
     return update_product(db, product_id, user_id, update_data)
+
+
+def create_product_service(db: Session, combined_data: ProductCombinedCreate, user_id: int):
+    data = combined_data.dict()
+
+    product_keys = [
+        "slug", "price", "currency", "discount_rate", "stock",
+        "attribute2_value", "attribute2_name", "attribute1_name",
+        "attribute1_value", "attribute3_name", "attribute3_value",
+         "attribute4_name", "attribute4_value",
+        "product_type", "listing_type", "barcode", "sku",
+        "shipping_charge", "status", "visibility",
+    ]
+    product_data = {k: data[k] for k in product_keys}
+
+    details_keys = [
+        "title", "tag", "faqs", "description",
+        "seo_title", "seo_description", "seo_keywords"
+    ]
+    details_data = {k: data[k] for k in details_keys}
+
+    return create_product(db, product_data, details_data, user_id)
+
 
 
 def add_category_service(product_cat: AddCategories, db:Session) :

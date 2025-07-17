@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from app.model.product_model import Product,Slider,ProductDetails,Category
 import pandas as pd
-from app.schemas.products_schema import AddCategories,ProductCreate,ProductDetailsCreate,ProductUpdate
+from app.schemas.products_schema import AddCategories,ProductUpdate
 
 
 
@@ -30,21 +30,21 @@ def get_brand_name(db:Session):
      return data["attribute2_value"].tolist()
 
 
-def create_product(db: Session, product_data: ProductCreate, product_details_data:ProductDetailsCreate ,user_id: int):
+def create_product(db: Session, product_data: dict, product_details_data:dict ,user_id: int):
     product_data["user_id"] = user_id
     
-    new_product = Product(**product_data.dict())  
+    new_product = Product(**product_data)  
     db.add(new_product)
     db.commit()
-    db.refresh(new_product)
+    db.refresh(new_product) 
 
     product_details_data["product_id"] = new_product.id
-    new_product_details = ProductDetails(**product_details_data.dict())
+    new_product_details = ProductDetails(**product_details_data)
     db.add(new_product_details)
     db.commit()
     db.refresh(new_product_details)
 
-    return {"product": new_product, "details": new_product_details}
+    return {"details": new_product_details}
 
 
 

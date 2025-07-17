@@ -44,7 +44,7 @@ class ProductDetails(Base):
     product_id = Column(Integer,nullable=False)
 
     title = Column(String(255))
-    tags = Column(String(255))
+    tag = Column(String(255))
     faqs = Column(String(255))
     description = Column(String(1000))
     seo_title = Column(String(255))
