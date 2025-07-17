@@ -29,13 +29,12 @@ class Product(Base):
     shipping_charge = Column(Integer)
     status = Column(Integer)
     visibility = Column(Integer)
-    product_type = Column(String(255))
-    categories = Column(String(255))
-    faqs = Column(String(255))
-    description = Column(String(255))
-    tags = Column(String(255))
-    stock = Column(Integer)
-    barcode = Column(String(255))
+    # product_type = Column(String(255))
+    # faqs = Column(String(255))
+    # description = Column(String(255))
+    # tags = Column(String(255))
+    # stock = Column(Integer)
+    # barcode = Column(String(255))
 
 
 class ProductDetails(Base):
@@ -51,8 +50,6 @@ class ProductDetails(Base):
     seo_title = Column(String(255))
     seo_description = Column(String(500))
     seo_keywords = Column(String(500))
-
-    # product = relationship("Product", back_populates="details")
 
 
 

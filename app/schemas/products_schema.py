@@ -52,7 +52,6 @@ class sliderResponse(BaseModel):
         orm_code = True
 
 class ProductCreate(BaseModel):
-    # id : int
     slug : str
     price : int
     currency : str
@@ -112,13 +111,10 @@ class ProductUpdate(BaseModel):
      shipping_charge: Optional[int] = None
      status: Optional[int] = None
      visibility: Optional[int] = None
-     product_type: Optional[str] = None
-     categories: Optional[str] = None
      faqs: Optional[str] = None
      description: Optional[str] = None
      tags: Optional[str] = None
-     stock : Optional[int] = None
-     barcode : Optional[str] = None
+    
 
 
      class Config:

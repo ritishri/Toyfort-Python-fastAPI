@@ -30,7 +30,9 @@ def create_product(product: ProductCreate,product_details:ProductDetailsCreate,d
     user_id = current_user["id"]  
     return product_service.create_product_service(db, product, product_details,user_id)   
 
-@router.put("/products/{product_id}")
+
+
+@router.put("/update-products/{product_id}")
 def update_product_endpoint( product_id: int, product_update: ProductUpdate, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)  
 ):
     user_id = current_user["id"]
@@ -39,8 +41,8 @@ def update_product_endpoint( product_id: int, product_update: ProductUpdate, db:
     
     if not updated_product:
         raise HTTPException(
-            sstatus_code=404,
-            detail="Product not found or you don't have permission"
+            status_code=404,
+            detail="Product not found"
         )
     
     return {
