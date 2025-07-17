@@ -56,7 +56,6 @@ class ProductCreate(BaseModel):
     price : int
     currency : str
     discount_rate : int
-    stock : int 
     slug : str  
     attribute2_value : str 
     attribute2_name : str
@@ -76,7 +75,6 @@ class ProductCreate(BaseModel):
     product_type: str
     categories:str
     stock : str
-    barcode : str
     class Config:
         orm_mode = True
        
@@ -99,9 +97,16 @@ class ProductUpdate(BaseModel):
      shipping_charge: Optional[int] = None
      status: Optional[int] = None
      visibility: Optional[int] = None
+
+
+
+     title: Optional[str] = None
+     tag: Optional[str]= None
      faqs: Optional[str] = None
      description: Optional[str] = None
-     tags: Optional[str] = None
+     seo_title: Optional[str] = None
+     seo_description: Optional[str] = None
+     seo_keywords: Optional[str] = None
     
 
 

@@ -37,8 +37,8 @@ def create_product(db: Session, product_data: dict, product_details_data:dict ,u
     db.add(new_product)
     db.commit()
     db.refresh(new_product) 
-
-    product_details_data["product_id"] = new_product.id
+    new_product_id = new_product.id
+    product_details_data["product_id"] = new_product_id
     new_product_details = ProductDetails(**product_details_data)
     db.add(new_product_details)
     db.commit()
@@ -47,23 +47,27 @@ def create_product(db: Session, product_data: dict, product_details_data:dict ,u
     return {"details": new_product_details}
 
 
-
-
-def update_product(db: Session, product_id: int, user_id: int, update_data: ProductUpdate):
-   
-    print(f"DEBUG: product_id={product_id}, user_id={user_id}")
-
+def update_product(db: Session, product_id: int, product_data: dict, details_data: dict):
     product = db.query(Product).filter(Product.id == product_id).first()
-    
     if not product:
-        return None 
-    
-    for key, value in update_data.items():
+        return None  
+
+    for key, value in product_data.items():
         setattr(product, key, value)
-    
+
+    product_details = db.query(ProductDetails).filter(ProductDetails.product_id == product_id).first()
+    if product_details:
+
+        for key, value in details_data.items():
+            setattr(product_details, key, value)
+
     db.commit()
     db.refresh(product)
-    return product    
+    if product_details:
+        db.refresh(product_details)
+
+    return {"product": product, "details": product_details}
+
 
 
 
@@ -75,3 +79,7 @@ def add_category(db:Session, product_cat : AddCategories ):
     db.refresh(category)
 
     return {"product": category}
+
+
+
+# product.id == product_details.id, product_setails.product_id

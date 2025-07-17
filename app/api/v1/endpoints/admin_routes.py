@@ -35,27 +35,26 @@ def create_product_route(
     new_prod = product_service.create_product_service(db, combined_data, user_id)
     return {
         "success": True,
+        "prod":new_prod
+    } 
+      
+
+
+@router.put("/update-product/{product_id}")
+def update_product_route(
+    product_id: int,
+    combined_data: ProductUpdate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    updated = product_service.update_product_service(db, product_id, combined_data)
+    if not updated:
+        return {"error": "Product not found"}
+    return {
+        "success": True,
     } 
 
 
-
-@router.put("/update-products/{product_id}")
-def update_product_endpoint( product_id: int, product_update: ProductUpdate, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)  
-):
-    user_id = current_user["id"]
-    
-    updated_product = product_service.update_product_service(db, product_id, user_id, product_update.dict(exclude_unset=True))
-    
-    if not updated_product:
-        raise HTTPException(
-            status_code=404,
-            detail="Product not found"
-        )
-    
-    return {
-        "success": True,
-        "data": updated_product
-    }        
 
 
 
