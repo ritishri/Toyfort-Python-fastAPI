@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from app.model.product_model import Product,Slider
+from app.model.product_model import Product,Slider,ProductDetails,Category
 import pandas as pd
+from app.schemas.products_schema import AddCategories
 
 
 
@@ -28,17 +29,24 @@ def get_brand_name(db:Session):
      data = pd.read_sql_query(query,db.bind)
      return data["attribute2_value"].tolist()
 
-from sqlalchemy.orm import Session
-from app.model.product_model import Product
 
-def create_product(db: Session, product_data: dict, user_id: int):
+def create_product(db: Session, product_data: dict, product_details_data:dict ,user_id: int):
     product_data["user_id"] = user_id
     
     new_product = Product(**product_data)  
     db.add(new_product)
     db.commit()
     db.refresh(new_product)
-    return new_product
+
+    product_details_data["product_id"] = new_product.id
+    new_product_details = ProductDetails(**product_details_data)
+    db.add(new_product_details)
+    db.commit()
+    db.refresh(new_product_details)
+
+    return {"product": new_product, "details": new_product_details}
+
+
 
 
 def update_product(db: Session, product_id: int, user_id: int, update_data: dict):
@@ -54,3 +62,14 @@ def update_product(db: Session, product_id: int, user_id: int, update_data: dict
     db.commit()
     db.refresh(product)
     return product    
+
+
+
+def add_category(db:Session, product_cat : AddCategories ):
+
+    category = Category(**product_cat.dict())
+    db.add(category)
+    db.commit()
+    db.refresh(category)
+
+    return {"product": category}

@@ -1,5 +1,6 @@
-from app.repositories.product_repository import get_all_products,get_all_products_by_slug,get_slider,get_brand_name,create_product,update_product
+from app.repositories.product_repository import get_all_products,get_all_products_by_slug,get_slider,get_brand_name,create_product,update_product,add_category
 from sqlalchemy.orm import Session
+from app.schemas.products_schema import AddCategories
 
 
 def fetch_products(db:Session):
@@ -19,10 +20,13 @@ def fetch_brand_name(db:Session):
 
 
 
-def create_product_service(db, product, user_id):
-    return create_product(db, product.dict(), user_id)
-
+def create_product_service(db: Session, product_data: dict, product_details_data: dict, user_id: int):
+    return create_product(db, product_data, product_details_data, user_id)
 
 def update_product_service(db, product_id, user_id, update_data):
     return update_product(db, product_id, user_id, update_data)
+
+
+def add_category_service(product_cat: AddCategories, db:Session) :
+    return  add_category(db,product_cat) 
 
